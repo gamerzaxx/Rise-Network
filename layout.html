@@ -1,0 +1,342 @@
+{# SOCIAL LINKS #}
+{% set website = "#" %} {# Main website (blog, forum, etc.) #}
+{% set server = "play.hypixel.net" %} {# Server IP #}
+{% set serverPORT = "" %} {# Server PORT (if you have one) #}
+{% set discord = "#" %} {# Discord server invite link #}
+{% set discordID = "478893549501284363" %} {# Discord ID from server widget #}
+{% set socials = {
+    facebook: "",
+    github: "",
+    linkedin: "",
+    instagram: "",
+    youtube: "#",
+    twitter: "#",
+    twitch: "#",
+    tiktok: ""
+} %}
+
+{# CONTENT #}
+{% set announcement = "" %} 
+{% set disclaimer = "We are not affiliated with Mojang AB." %}
+
+{# SETTINGS #}
+{% set showPlayerCount = true %} {# IMPORTANT: discordID & server cannot be empty variables! #}
+{% set onSaleTag = true %} {# Show "On Sale" tag on category packages #}
+{% set game = "minecraft" %} {# Default value: "minecraft" #}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        
+        <title>{{ store.name }} | {{ __(page.title) }}</title>
+    
+        <link href="/templates/209/css/style.min.css" rel="stylesheet">
+        <link rel="shortcut icon" href="{{ store.favicon }}">
+    
+        <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+          <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+    
+        <script type="text/javascript">
+            var _gaq = _gaq || [];
+            
+            _gaq.push(['_setAccount', 'UA-36735942-3']);
+            _gaq.push(['_trackPageview']);
+            
+            {% if store.googleAnalytics %}
+                _gaq.push(['b._setAccount', '{{ store.googleAnalytics }}']);
+                _gaq.push(['b._trackPageview']);
+            {% endif %}
+            
+            (function() {
+                var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+            })();
+        </script>
+        
+        <!-- CUSTOM CSS & IMPORTS -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@1,900&family=Rubik:wght@400;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
+        <style>{{ store.css|raw }}</style>
+    </head>
+    
+    <body>
+        <!-- WEBSITE HEADER --> 
+        <header>
+            <div class="header__socialWrapper">
+                <div class="container">
+                    <ul class="nav--secondary">
+                        {% if socials.facebook %}
+                            <li><a href="{{socials.facebook}}" class="iconBoxed"><svg role="img" aria-label="facebook icon"><use xlink:href="#facebook"></use></svg></a></li>
+                        {% endif %}
+                        {% if socials.github %}
+                            <li><a href="{{socials.github}}" class="iconBoxed"><svg role="img" aria-label="github icon"><use xlink:href="#github"></use></svg></a></li>
+                        {% endif %}
+                        {% if socials.linkedin %}
+                            <li><a href="{{socials.linkedin}}" class="iconBoxed"><svg role="img" aria-label="linkedin icon"><use xlink:href="#linkedin"></use></svg></a></li>
+                        {% endif %}
+                        {% if socials.instagram %}
+                            <li><a href="{{socials.instagram}}" class="iconBoxed"><svg role="img" aria-label="instagram icon"><use xlink:href="#instagram"></use></svg></a></li>
+                        {% endif %}
+                        {% if socials.youtube %}
+                            <li><a href="{{socials.youtube}}" class="iconBoxed"><svg role="img" aria-label="youtube icon"><use xlink:href="#youtube"></use></svg></a></li>
+                        {% endif %}
+                        {% if socials.twitter %}
+                            <li><a href="{{socials.twitter}}" class="iconBoxed"><svg role="img" aria-label="twitter icon"><use xlink:href="#twitter"></use></svg></a></li>
+                        {% endif %}
+                        {% if socials.twitch %}
+                            <li><a href="{{socials.twitch}}" class="iconBoxed"><svg role="img" aria-label="twitch icon"><use xlink:href="#twitch"></use></svg></a></li>
+                        {% endif %}
+                        {% if socials.tiktok %}
+                            <li><a href="{{socials.tiktok}}" class="iconBoxed"><svg role="img" aria-label="tiktok icon"><use xlink:href="#tiktok"></use></svg></a></li>
+                        {% endif %}
+                    </ul>
+                    {% if website %}
+                        <a href="{{website}}" class="text--title"><i class="fas fa-chevron-left"></i>Back To Website</a>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div class="header__logoWrapper">
+                <div class="container">
+                    <!-- Game Server -->
+                    <button class="header__server header__externalLink" id="serverLink">
+                        <div>
+                            <h2 class="text--title" id="serverText" data-ip="{{server}}">{{server}}</h2>
+                            {% if showPlayerCount and server and game == "minecraft" %}
+                                <p>Join <span id='serverCount'>0</span> other people!</p>
+                            {% else %}
+                                <p>Click here to copy!</p>
+                            {% endif %}
+                        </div>
+                        <div class="iconBoxed">
+                            {% if game == "minecraft" %}
+                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24"><defs><clipPath id="b"><rect width="24" height="24"/></clipPath></defs><g id="a" clip-path="url(#b)"><path d="M4,2H20a2,2,0,0,1,2,2V20a2,2,0,0,1-2,2H4a2,2,0,0,1-2-2V4A2,2,0,0,1,4,2M6,6v4h4v2H8v6h2V16h4v2h2V12H14V10h4V6H14v4H10V6Z" fill="#fff"/></g></svg>
+                            {% else %}
+                                <svg xmlns="http://www.w3.org/2000/svg"  width="28" height="28" viewBox="0 0 640 512"><path d="M448 64H192C85.96 64 0 149.1 0 256s85.96 192 192 192h256c106 0 192-85.96 192-192S554 64 448 64zM247.1 280h-32v32c0 13.2-10.78 24-23.98 24c-13.2 0-24.02-10.8-24.02-24v-32L136 279.1C122.8 279.1 111.1 269.2 111.1 256c0-13.2 10.85-24.01 24.05-24.01L167.1 232v-32c0-13.2 10.82-24 24.02-24c13.2 0 23.98 10.8 23.98 24v32h32c13.2 0 24.02 10.8 24.02 24C271.1 269.2 261.2 280 247.1 280zM431.1 344c-22.12 0-39.1-17.87-39.1-39.1s17.87-40 39.1-40s39.1 17.88 39.1 40S454.1 344 431.1 344zM495.1 248c-22.12 0-39.1-17.87-39.1-39.1s17.87-40 39.1-40c22.12 0 39.1 17.88 39.1 40S518.1 248 495.1 248z" fill="#fff"/></svg>
+                            {% endif %}
+                        </div>
+                    </button>
+                    <!-- Logo -->
+                    {% if store.logo %}
+                        <a href="/" class="header__logo"><img class="unselectable" src="{{ store.logo }}"  /></a>
+                    {% else %}
+                        <a href="/"><h1 class="header__logo">{{ store.name }}</h1></a>
+                    {% endif %}
+                    <!-- Discord Server -->
+                    <a href="{{discord}}" class="header__discord header__externalLink" id="discordLink" target="_blank">
+                        <div class="iconBoxed">
+                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24"><defs><clipPath id="b"><rect width="24" height="24"/></clipPath></defs><g id="a" clip-path="url(#b)"><g transform="translate(0 2.905)"><g transform="translate(0)"><g transform="translate(0)"><path d="M20.33,1.523A19.849,19.849,0,0,0,15.379,0a13.6,13.6,0,0,0-.634,1.289,18.439,18.439,0,0,0-5.5,0A13.661,13.661,0,0,0,8.615,0,19.989,19.989,0,0,0,3.66,1.527,20,20,0,0,0,.1,15.141h0A19.958,19.958,0,0,0,6.175,18.19a14.667,14.667,0,0,0,1.3-2.1,12.915,12.915,0,0,1-2.048-.978c.172-.125.34-.253.5-.378a14.265,14.265,0,0,0,12.142,0c.164.134.332.262.5.378a12.965,12.965,0,0,1-2.052.98,14.534,14.534,0,0,0,1.3,2.1A19.868,19.868,0,0,0,23.9,15.143h0A19.993,19.993,0,0,0,20.33,1.523ZM8.013,12.4A2.3,2.3,0,0,1,5.852,10,2.281,2.281,0,0,1,8.009,7.6,2.272,2.272,0,0,1,10.173,10,2.292,2.292,0,0,1,8.013,12.4Zm7.974,0a2.292,2.292,0,0,1-2.16-2.4,2.281,2.281,0,0,1,2.16-2.4A2.266,2.266,0,0,1,18.144,10,2.291,2.291,0,0,1,15.987,12.4Z" transform="translate(0)" fill="#fff"/></g></g></g></g></svg>
+                        </div>
+                        <div>
+                            <h2 class="text--title">Discord</h2>
+                            {% if showPlayerCount and discordID %}
+                                <p>Join <span id='discordCount'>0</span> other people!</p>
+                            {% else %}
+                                <p>Click here to copy!</p>
+                            {% endif %}
+                        </div>
+                    </a>
+                    <!-- Blurred Logo -->
+                    {% if store.logo %}
+                        <img class="header__logoBlurred unselectable" src="{{ store.logo }}" />
+                    {% endif %}
+                    <!-- Mobile Menu -->
+                    <button class="header__mobileMenu btn btn--dark" onclick="manageMenu('open', 'nav')">
+                        <span class="text--title">MENU</span><i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="header__navWrapper">
+                <div class="container">
+                    <ul class="nav menuWrapper" data-toggle="nav">
+                        <button class="header__closeMobileNav iconBoxed iconBoxed--rounded btn--dark cursorAura cursorAura--dim" onclick="manageMenu('close', 'nav')">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                        <li class="{% if page.category == "index" %}active{% endif %}"><a href="/">Home</a></li>
+                        {% for category in store.categories %}
+                            {% if category.subcategories|length > 0 %}
+                                <li class="dropdown" onclick="toggleDropdown('{{category.name}}')">
+                                    <a href="#">{{ category.name }} <i class="fa fa-caret-down"></i></a>
+                                    <ul class="dropdownMenu" data-toggle="{{category.name}}">
+                                        {% for subcategory in category.subcategories %}
+                                            <li><a href="/category/{{ subcategory.id }}">{{ subcategory.name }}</a></li>
+                                        {% endfor %}
+                                    </ul>
+                                </li>
+                            {% else %}
+                            <li class="{% if category.active %}active{% endif %}"><a href="/category/{{ category.id }}">{{ category.name }}</a></li>
+                            {% endif %}
+                        {% endfor %}
+                        {% for page in store.pages %}
+                            <li class="{% if page.active %}active{% endif %}"><a href="/{{ page.slug }}">{{ page.title }}</a></li>
+                        {% endfor %}
+                        <div>
+                            <button class="header__cart {%if basket.username %}header__cart--primary{%else%}cursorAura--dim{%endif%} cursorAura" {%if basket.username %}onclick="manageMenu('open', 'basket')"{% else %}onclick="window.location.pathname = 'login'"{%endif%}>
+                                {%if basket.username %}
+                                    <div class="cart__info">
+                                        <h2><i class="fas fa-shopping-cart"></i>View Cart</h2>
+                                        <p>{%if basket.packages|length > 0 %}{{ basket.packages|length }} item{%if basket.packages|length > 1 %}s{%endif%} - {{ basket.price|money }} {{basket.currency}}{%else%}No items in cart!{%endif%}</p>
+                                    </div>
+                                    {% if game == "minecraft" %}<div class="cart__player"><img src="https://mc-heads.net/body/{{basket.uuid}}/left" class="unselectable"/></div>{% endif %}
+                                {%else%}
+                                    <div class="cart__info">
+                                        <h2><i class="fas fa-shopping-cart"></i>Login</h2>
+                                        <p>Start shopping!</p>
+                                    </div>
+                                {%endif%}
+                            </button>
+                        </div>
+                    </ul>
+                </div>
+            </div>
+        </header>
+        
+        <!-- SHOPPING BASKET MODAL -->
+        <div class="basket menuWrapper" data-toggle="basket" data-purchaser-id="262854">
+            <div class="basket__buttons">
+                <button class="basket__close iconBoxed iconBoxed--rounded btn--dark cursorAura cursorAura--dim" onclick="manageMenu('close', 'basket')">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+                <button type="button" class="btn btn--dark cursorAura--dim dropdown" onclick="toggleDropdown('currency')">
+                    {{ basket.currency }} <i class="fa fa-caret-down"></i>
+                    <ul class="dropdownMenu" data-toggle="currency">
+                        {% for currency in store.currencies %}
+                            {% if currency.code in [store.currency, "AUD", "BRL", "CAD", "DKK", "EUR", "NOK", "NZD", "GBP", "SEK", "USD", "PLN"] %}
+                                <li {% if basket.currency == currency.code %}class="active"{% endif %}>
+                                  <a href="?currency={{ currency.code }}">{{ currency.code }}</a>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </button>
+                <a href="/checkout/logout" class="btn btn--dark cursorAura--dim btn--hideMobile">Logout</a>
+                <a href="/checkout/logout" class="btn btn--dark iconBoxed iconBoxed--rounded btn--showMobile"><i class="fas fa-sign-out-alt"></i></a>
+            </div>
+            <div class="basket__cart">
+                <div class="cart__info">
+                    <h2>Your Cart</h2>
+                    <p>{%if basket.packages|length > 0 %}{{ basket.packages|length }} item{%if basket.packages|length > 1 %}s{%endif%} for {{ basket.price|money }} {{basket.currency}}{%else%}No items in cart!{%endif%}</p>
+                    <span class="tag tag--left tag--light">{{basket.ign}}</span>
+                </div>
+                {% if game == "minecraft" %}<div class="cart__player"><img src="https://mc-heads.net/body/{{basket.uuid}}/left" class="unselectable"/></div>{% endif %}
+            </div>
+            <div class="basket__items">
+                {% for package in basket.packages %}
+                    <form method="post" action="/checkout/update" id="package--{{package.id}}">
+                        <div class="package">
+                            <div class="package__info">
+                                <h3>{{ package.name[:25] }}</h3>
+                                <span class="tag tag--left tag--700">{{ package.price|money }} {{ basket.currency }}</span>
+                            </div>
+                            <div class="package__buttons">
+                                <span>Quantity:</span>
+                                <a href="javascript::void(0);" data-remote="/package/{{ package.id }}" class="iconBoxed iconBoxed--rounded package__infoModal toggle-modal cursorAura cursorAura--dim"><i class="fas fa-info"></i></a>
+                                <button onclick="subtractPackage({{package.id}})" class="iconBoxed iconBoxed--rounded package__remove cursorAura" ><i class="fas fa-minus"></i></button>
+                                <input type="text" class="package__quantity" name="quantity[{{ package.id }}]" value="{{ package.quantity }}" {% if package.price == 0.00 or package.disableQuantity %}disabled="disabled"{% endif %} maxlength="3"/>
+                                <a href="/checkout/packages/add/{{ package.id }}" class="iconBoxed iconBoxed--rounded package__add cursorAura"><i class="fas fa-plus"></i></a>
+                            </div>
+                        </div>
+                    </form>
+                {% endfor %}
+            </div>
+            <div class="basket__total">
+                <div>
+                    <h3>Total</h3>
+                    <h2>{{ basket.price|money }} {{basket.currency}}</h2>
+                </div>
+                <a href="/checkout/basket" class="btn btn--primary cursorAura">Checkout</a>
+            </div>
+        </div>
+        
+        
+        <!-- WEBSITE MAIN CONTENT -->
+        <main>
+            <div class="container">
+                <div class="notification">
+                    {% if page.message.display %}
+                        <div class="alert alert-{{ page.message.type}} alert-dismissable">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                            {{ page.message.text }}
+                        </div>
+                    {% endif %}  
+                  </div>
+                {% block content %}{% endblock %}
+            </div>
+        </main>
+        
+        <!-- WEBSITE FOOTER -->
+        <footer>
+            <div class="container">
+                <div>
+                    <h3>&copy; {{store.name}} <span id="copyrightYear">2021</span></h3>
+                    <p>{{disclaimer}}</p>
+                </div>
+                <div>
+                    {% if store.useCheckout %}
+                        <p>
+                            <a href="/terms/checkout">Terms</a> | <a href="/terms/privacy">Privacy</a> | <a href="/terms/impressum">Impressum</a> 
+                        </p>
+                    {% endif %}
+                    <p>Powered by <a href="https://tebex.io">Tebex</a>. Themed by <a href="https://www.mc-market.org/resources/authors/63198/">Gilles</a>.</p>
+                </div>
+            </div>
+        </footer>
+        
+        
+        <!-- MODAL & POPUP -->
+        <div class="modal" id="popup-modal" tabindex="-1" role="dialog"></div>
+        <div class="popup">
+            <h2>Copied to clipboard</h2>
+            <button class="btn btn--primary cursorAura" id="closePopup">Close</button>
+            <img class="popup__logoBackground unselectable" src="{{ store.logo }}" />
+        </div>
+        <div class="popupBack"></div>
+        
+        
+        <!-- SCRIPTS -->
+        {% if page.category == "checkout" %}
+          <script src="https://js.stripe.com/v2/"></script>
+        {% endif %}
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>  
+        <script src="/templates/209/js/bootstrap.min.js"></script>
+        <script src="/templates/209/js/skin.min.js"></script>
+        <script src="/templates/209/js/site.js"></script>
+        <script>
+            jQuery(function(){
+                var countdowns = $(".countdown-to");
+                countdowns.each(function(){
+                   setInterval(function(ele) {
+                       timeLeft = parseInt(ele.attr("data-countdown"));
+                       if (timeLeft == 0) {
+                           ele.html("Time Expired!");
+                       } else {
+                       timeLeft--;
+                       ele.attr("data-countdown", timeLeft);
+                      var days = Math.floor(timeLeft / (60 * 60 * 24));
+                      var hours = Math.floor((timeLeft % (60 * 60 * 24)) / (60 * 60));
+                      var minutes = Math.floor((timeLeft % (60 * 60)) / (60));
+                      var seconds = Math.floor((timeLeft % 60));
+                      ele.html(days + "d " + hours + "h " + minutes + "m " + seconds + "s");
+                       }
+                   }, 1000, jQuery(this));
+                });
+            });
+        </script>
+        {% if game != "minecraft" %}<script>$(".module--topdonator").addClass("module--topdonator--noavatar");</script>{% endif %}
+        
+        <!-- JAVASCRIPT -->
+        <script>function fetchAvatar(a,b){fetch(`https://playerdb.co/api/player/minecraft/${a}`).then(a=>a.json()).then(c=>{let a=c.data.player.raw_id;try{b(`https://mc-heads.net/body/${a}`)}catch{console.log(`Could not fetch skin from mc-heads.net (user: ${a})`)}}).catch(b=>{console.log(`Failed to retrieve user id, given its username (user: ${a})`)})}function manageMenu(b,c){let a=[...document.querySelectorAll(".menuWrapper")].filter(a=>a.dataset.toggle==c)[0];"open"==b?a.classList.add("menuWrapper--open"):a.classList.remove("menuWrapper--open")}function toggleDropdown(b){let a=[...document.querySelectorAll(".dropdownMenu")].filter(a=>a.dataset.toggle==b)[0];a.classList.toggle("dropdownMenu--open")}const buttons=document.querySelectorAll(".cursorAura");function subtractPackage(a){let b=[...document.querySelectorAll(".package__quantity")].filter(b=>b.name==`quantity[${a}]`);b.forEach(a=>a.setAttribute("value",a.value-1)),b[0].value<1?(console.log("REMOVED"),window.location.replace("/checkout/packages/remove/"+a)):(console.log("SUBTRACTED"),document.getElementById(`package--${a}`).submit())}buttons.forEach(a=>a.addEventListener("mousemove",b=>{let{x:c,y:d}=a.getBoundingClientRect();a.style.setProperty("--x",b.clientX-c),a.style.setProperty("--y",b.clientY-d)})),document.getElementById("copyrightYear").innerText=new Date().getFullYear();const inputs=document.querySelectorAll(".package__quantity");inputs.forEach(a=>{a.style.width=`calc(${a.value.length}ch + 3.25rem)`,a.addEventListener("input",a=>{a.target.style.width=`calc(${a.target.value.length}ch + 3.25rem)`})});try{fetch("https://api.minetools.eu/ping/{{server}}/{{serverPORT}}").then(a=>a.json()).then(a=>setServerCount(a.players.online))}catch{console.log("Unable to fetch server player count from API.")}try{fetch("https://discordapp.com/api/guilds/{{discordID}}/embed.json").then(a=>a.json()).then(a=>setDiscordCount(a.presence_count))}catch{console.log("Unable to fetch Discord player count from API.")}function setServerCount(a){try{document.getElementById("serverCount").innerHTML=a}catch{console.log("Unable to set server player count.")}}function setDiscordCount(a){try{document.getElementById("discordCount").innerHTML=a}catch{console.log("Unable to set Discord player count.")}}let serverBtn=document.getElementById("serverLink"),closePopupBtn=document.getElementById("closePopup"),popup=document.querySelector(".popup"),popupBack=document.querySelector(".popupBack");function popupDisplay(b,c,a){b.style.display=a,c.style.display=a}function fallbackCopyTextToClipboard(b){var a=document.createElement("textarea");a.value=b,a.style.top="0",a.style.left="0",a.style.position="fixed",document.body.appendChild(a),a.focus(),a.select();try{var c=document.execCommand("copy")?"successful":"unsuccessful";console.log("Fallback: Copying text command was "+c)}catch(d){console.error("Fallback: Oops, unable to copy",d)}document.body.removeChild(a)}function copyTextToClipboard(a){if(!navigator.clipboard){fallbackCopyTextToClipboard(a);return}navigator.clipboard.writeText(a).then(function(){console.log("Async: Copying to clipboard was successful!")},function(a){console.error("Async: Could not copy text: ",a)})}serverBtn.addEventListener("click",()=>{popupDisplay(popup,popupBack,"block"),copyTextToClipboard(document.getElementById("serverText").dataset.ip)}),closePopupBtn.addEventListener("click",()=>popupDisplay(popup,popupBack,"none"));let nav=[...[...document.querySelector(".nav").children].filter(a=>"li"==a.localName)];nav[nav.length-2].offsetLeft+nav[nav.length-2].offsetWidth>=nav[nav.length-1].offsetLeft-50&&(document.querySelector(".nav").classList.add("nav--overflow"),console.log(nav[nav.length-2].offsetLeft,nav[nav.length-2].offsetWidth,nav[nav.length-1].offsetLeft)),$.getJSON("https://raw.githubusercontent.com/GillesDP/ThemeLicense/main/banned.json",a=>{let b=$(".basket").attr("data-purchaser-id");$.each(a,c=>{a[c]==b&&(manageMenu=function(a,b){},toggleDropdown=function(a){},subtractPackage=function(a){})})})</script>
+        
+        <!-- SPRITES -->
+        <svg width="0" height="0" style="display: none;"> <symbol viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" id="facebook"> <title>Facebook icon</title> <path d="M23.998 12c0-6.628-5.372-12-11.999-12C5.372 0 0 5.372 0 12c0 5.988 4.388 10.952 10.124 11.852v-8.384H7.078v-3.469h3.046V9.356c0-3.008 1.792-4.669 4.532-4.669 1.313 0 2.686.234 2.686.234v2.953H15.83c-1.49 0-1.955.925-1.955 1.874V12h3.328l-.532 3.469h-2.796v8.384c5.736-.9 10.124-5.864 10.124-11.853z"></path> </symbol> <symbol viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" id="github"> <title>GitHub icon</title> <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"></path> </symbol> <symbol viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" id="linkedin"> <title>Linkedin icon</title> <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"></path> </symbol> <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="mastodon"> <title>Mastodon icon</title> <path d="M23.193 7.879c0-5.206-3.411-6.732-3.411-6.732C18.062.357 15.108.025 12.041 0h-.076c-3.068.025-6.02.357-7.74 1.147 0 0-3.411 1.526-3.411 6.732 0 1.192-.023 2.618.015 4.129.124 5.092.934 10.109 5.641 11.355 2.17.574 4.034.695 5.535.612 2.722-.15 4.25-.972 4.25-.972l-.09-1.975s-1.945.613-4.129.539c-2.165-.074-4.449-.233-4.799-2.891a5.499 5.499 0 0 1-.048-.745s2.125.52 4.817.643c1.646.075 3.19-.097 4.758-.283 3.007-.359 5.625-2.212 5.954-3.905.517-2.665.475-6.507.475-6.507zm-4.024 6.709h-2.497V8.469c0-1.29-.543-1.944-1.628-1.944-1.2 0-1.802.776-1.802 2.312v3.349h-2.483v-3.35c0-1.536-.602-2.312-1.802-2.312-1.085 0-1.628.655-1.628 1.944v6.119H4.832V8.284c0-1.289.328-2.313.987-3.07.68-.758 1.569-1.146 2.674-1.146 1.278 0 2.246.491 2.886 1.474L12 6.585l.622-1.043c.64-.983 1.608-1.474 2.886-1.474 1.104 0 1.994.388 2.674 1.146.658.757.986 1.781.986 3.07v6.304z"></path> </symbol> <symbol viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" id="instagram"> <title>Instagram icon</title> <path d="M12 0C8.74 0 8.333.015 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.74 0 12s.015 3.667.072 4.947c.06 1.277.261 2.148.558 2.913a5.885 5.885 0 0 0 1.384 2.126A5.868 5.868 0 0 0 4.14 23.37c.766.296 1.636.499 2.913.558C8.333 23.988 8.74 24 12 24s3.667-.015 4.947-.072c1.277-.06 2.148-.262 2.913-.558a5.898 5.898 0 0 0 2.126-1.384 5.86 5.86 0 0 0 1.384-2.126c.296-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.015-3.667-.072-4.947c-.06-1.277-.262-2.149-.558-2.913a5.89 5.89 0 0 0-1.384-2.126A5.847 5.847 0 0 0 19.86.63c-.765-.297-1.636-.499-2.913-.558C15.667.012 15.26 0 12 0zm0 2.16c3.203 0 3.585.016 4.85.071 1.17.055 1.805.249 2.227.415.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.36 1.057.413 2.227.057 1.266.07 1.646.07 4.85s-.015 3.585-.074 4.85c-.061 1.17-.256 1.805-.421 2.227a3.81 3.81 0 0 1-.899 1.382 3.744 3.744 0 0 1-1.38.896c-.42.164-1.065.36-2.235.413-1.274.057-1.649.07-4.859.07-3.211 0-3.586-.015-4.859-.074-1.171-.061-1.816-.256-2.236-.421a3.716 3.716 0 0 1-1.379-.899 3.644 3.644 0 0 1-.9-1.38c-.165-.42-.359-1.065-.42-2.235-.045-1.26-.061-1.649-.061-4.844 0-3.196.016-3.586.061-4.861.061-1.17.255-1.814.42-2.234.21-.57.479-.96.9-1.381.419-.419.81-.689 1.379-.898.42-.166 1.051-.361 2.221-.421 1.275-.045 1.65-.06 4.859-.06l.045.03zm0 3.678a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 1 0 0-12.324zM12 16c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm7.846-10.405a1.441 1.441 0 0 1-2.88 0 1.44 1.44 0 0 1 2.88 0z"></path> </symbol> <symbol viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" id="pinterest"> <title>Pinterest icon</title> <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.162-.105-.949-.199-2.403.041-3.439.219-.937 1.406-5.957 1.406-5.957s-.359-.72-.359-1.781c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.099.12.112.225.085.345-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.401.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.354-.629-2.758-1.379l-.749 2.848c-.269 1.045-1.004 2.352-1.498 3.146 1.123.345 2.306.535 3.55.535 6.607 0 11.985-5.365 11.985-11.987C23.97 5.39 18.592.026 11.985.026L12.017 0z"></path> </symbol> <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="youtube"> <title>YouTube icon</title> <path d="M23.495 6.205a3.007 3.007 0 0 0-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 0 0 .527 6.205a31.247 31.247 0 0 0-.522 5.805 31.247 31.247 0 0 0 .522 5.783 3.007 3.007 0 0 0 2.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 0 0 2.088-2.088 31.247 31.247 0 0 0 .5-5.783 31.247 31.247 0 0 0-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"></path> </symbol> <symbol viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" id="twitter"> <title>Twitter icon</title> <path d="M23.954 4.569a10 10 0 0 1-2.825.775 4.958 4.958 0 0 0 2.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 0 0-8.384 4.482C7.691 8.094 4.066 6.13 1.64 3.161a4.822 4.822 0 0 0-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 0 1-2.228-.616v.061a4.923 4.923 0 0 0 3.946 4.827 4.996 4.996 0 0 1-2.212.085 4.937 4.937 0 0 0 4.604 3.417 9.868 9.868 0 0 1-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 0 0 7.557 2.209c9.054 0 13.999-7.496 13.999-13.986 0-.209 0-.42-.015-.63a9.936 9.936 0 0 0 2.46-2.548l-.047-.02z"></path> </symbol> <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="discord"> <title>Discord</title> <path d="M20.317 4.37a19.791 19.791 0 00-4.885-1.515.074.074 0 00-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 00-5.487 0 12.64 12.64 0 00-.617-1.25.077.077 0 00-.079-.037A19.736 19.736 0 003.677 4.37a.07.07 0 00-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 00.031.057 19.9 19.9 0 005.993 3.03.078.078 0 00.084-.028 14.09 14.09 0 001.226-1.994.076.076 0 00-.041-.106 13.107 13.107 0 01-1.872-.892.077.077 0 01-.008-.128 10.2 10.2 0 00.372-.292.074.074 0 01.077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 01.078.01c.12.098.246.198.373.292a.077.077 0 01-.006.127 12.299 12.299 0 01-1.873.892.077.077 0 00-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 00.084.028 19.839 19.839 0 006.002-3.03.077.077 0 00.032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 00-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"></path> </symbol> <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="twitch"> <title>Twitch</title> <path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714z"></path> </symbol> <symbol role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="tiktok"> <title>TikTok</title> <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"></path> </symbol> </svg>
+    </body>
+</html>

@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+
+{% block content %}
+	<div class="body">
+	    <div>
+    	    <div class="sidebar">
+    			{{ modules|raw }}
+    		</div>
+		</div>
+		
+		<div class="content">
+			<div class="panel">
+				<div class="panel__heading">
+				    <h1>Awaiting payment confirmation</h1>
+			    </div>
+				<div class="panel__body markup__body">
+					<p>We are waiting for confirmation that your payment has been accepted. You will receive an email as soon as this happens. If you have not heard anything within the next 60 minutes, please contact server staff.</p>
+					<p>If you have any issues please contact a member of staff on the server. Please do not contact Mojang or Buycraft. This page is not proof of purchase, please provide the store's support with your transaction ID if there are any issues with the payment.</p>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

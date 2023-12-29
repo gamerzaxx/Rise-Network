@@ -1,0 +1,35 @@
+<div class="module module--payments">
+    <div class="module__heading">
+        <i class="fas fa-user-friends"></i>
+        <h2>{{ module.header }}</h2>
+    </div>
+    <div class="module__body">
+        {% if module.payments %}
+            <ul>
+                {% for payment in module.payments %}
+                    <li>
+                        {% if game == "minecraft" %}
+                            <img src="https://minotar.net/avatar/{{payment.ign}}/32" width="32" class="unselectable" />
+                        {% else %}
+                            <img src="{{payment.skin}}" width="32" class="unselectable" />
+                        {% endif %}
+                        <small>
+                            <b>{{payment.ign}}</b>
+                            {% if module.displayPackage %}
+                                {{payment.name[:20]}}
+                            {% endif %}
+                            {% if module.displayPackage and module.displayPrice %}
+                                -
+                            {% endif %}
+                            {% if module.displayPrice %}
+                                {{payment.price|money}} {{payment.currency}}
+                            {% endif %}
+                        </small>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No recent payments to display.</p>
+        {% endif %}
+    </div>
+</div>

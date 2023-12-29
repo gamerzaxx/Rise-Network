@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+
+{% block content %}
+	<div class="body">
+	    <div>
+    	    <div class="sidebar">
+    			{{ modules|raw }}
+    		</div>
+		</div>
+		
+		<div class="content">
+			<div class="panel">
+			    <div class="featured">{{ modules|raw }}</div>
+			    
+				<div class="panel__heading">
+				    <h1>Payment instructions</h1>
+			    </div>
+				<div class="panel__body">
+					{{ gateway.note|raw }}
+					{{ gateway.scripts|raw }}
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

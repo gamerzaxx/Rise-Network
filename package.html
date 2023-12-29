@@ -1,0 +1,32 @@
+<div class="modalWrapper">
+    <div class="modal__header">
+        <h2>{{package.name}}</h2>
+        <button type="button" data-dismiss="modal" aria-hidden="true" class="iconBoxed iconBoxed--rounded btn--dark cursorAura cursorAura--dim">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+    {% if package.description|raw %}
+        <div class="modal__body markup__body">
+            {{ package.description|raw }}
+        </div>
+    {% endif %}
+    {% include 'package_footer.html' %}
+</div>
+
+<script>
+    /* QUICKFIX: CursorAura & Collapsibles not loading on modals */
+    const buttons = document.querySelectorAll(".cursorAura");
+    buttons.forEach(button => button.addEventListener("mousemove", e => {
+       const {x, y} = button.getBoundingClientRect();
+       button.style.setProperty("--x", e.clientX - x);
+       button.style.setProperty("--y", e.clientY - y);
+    }));
+    
+    const collapsibleBtns = document.querySelectorAll(".collapse");
+    const collapsibles = document.querySelectorAll(".collapsible");
+    collapsibleBtns.forEach(element => element.addEventListener("click", () => {
+        let collapsible = [...collapsibles].find(i => i.dataset.collapsible == element.dataset.collapse);
+        console.log(collapsible);
+        collapsible.classList.toggle("collapsible--open");
+    }));
+</script>

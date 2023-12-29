@@ -1,0 +1,32 @@
+<div class="module module--communitygoal">
+    <div class="module__heading">
+        <i class="fas fa-bullseye"></i>
+        <h2>{{ module.header }}</h2>
+    </div>
+    <div class="module__body">
+        {{ module.communitygoal.description|raw }}
+        
+        <div class="progress">
+            <div class="progress__bar" style="width:{{ module.percentage }}%;"></div>
+            {% if module.displayAmount %}
+                <h3>{{ module.total }} / {{ module.target }} {{ store.currency }} ({{ module.percentage }}%)</h3>
+		    {% endif %}
+		    {% if module.displayAmount == false %}
+			    <h3>{{ module.percentage }}% Completed</h3>
+		    {% endif %}
+        </div>
+        
+        {% if module.communitygoal.repeatable == 1 %}
+            <h3>Times Achieved: {{ module.communitygoal.times_achieved }}</h3>
+        {% endif %}
+    </div>
+</div>
+
+
+{# VARIABLES:
+    - module.communitygoal.image
+    - module.bar.style ("striped")
+    - module.bar.animated (true/false)
+    - module.communitygoal.repeatable (1/0)
+    - module.communitygoal.times_achieved
+#}

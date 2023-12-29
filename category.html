@@ -1,0 +1,104 @@
+{% extends "layout.html" %}
+
+{% block content %}
+	<div class="body">
+	    <!-- SIDEBAR -->
+	    <div>
+    	    <div class="sidebar">
+    			{{ modules|raw }}
+    		</div>
+		</div>
+		<!-- CONTENT -->
+		<div class="content">
+		    <div class="featured">{{ modules|raw }}</div>
+		    
+			<div class="panel">
+				<div class="panel__heading">
+				    <h1>{{ category.name }}</h1>
+			    </div>
+				<div class="panel__body">
+				    {# if category.decription != "" #}
+				        <div class="panel__description">
+				            {{ category.description|raw }}
+				        </div>
+				    {# endif #}
+				    
+					{% if category.packages|length > 0 %}
+					    <div class="category {% if category.displayType == "list" %}category--list{% else %}category--images{% endif %}">
+					        
+					        <!-- LIST PACKAGES -->
+    						{% if category.displayType == "list" %}
+    						    {% for package in category.packages %}
+    						        <div class="package">
+                                        <div class="package__info">
+                                            <h3>{{ package.name[:25] }}</h3>
+                                            <div class="package__tags">
+                                                <span class="tag tag--left tag--700">{{ package.price|money }} {{ basket.currency }}</span>
+                                                {% if package.countdownEnds %}
+                                                    <span class="tag tag--danger"><i class="fas fa-stopwatch"></i>Ending Soon</span>
+                                                {% endif %}
+                                                {% if package.discount.applied %}
+    					                  		    <p class="price--discounted text--title">{{ package.discount.original|money }} {{ basket.currency }}</p>
+    					                  		{% endif %}
+					                  		</div>
+                                        </div>
+                                        <div class="package__buttons {% if not package.basket %}package__buttons--outBasket{% endif %}">
+                                            <a href="javascript::void(0);" data-remote="/package/{{ package.id }}" class="iconBoxed iconBoxed--rounded package__infoModal toggle-modal cursorAura cursorAura--dim"><i class="fas fa-info"></i></a>
+                                            {% if package.basket %}
+                                                <span>Quantity:</span>
+                                                <a href="#" onclick="subtractPackage({{package.id}})" class="iconBoxed iconBoxed--rounded package__remove cursorAura" ><i class="fas fa-minus"></i></a>
+                                                <input type="text" class="package__quantity" name="quantity[{{ package.id }}]" value="{{ package.quantity }}" {% if package.price == 0.00 or package.disableQuantity %}disabled="disabled"{% endif %} maxlength="3"/>
+                                                <a href="/checkout/packages/add/{{ package.id }}" class="iconBoxed iconBoxed--rounded package__add cursorAura"><i class="fas fa-plus"></i></a>
+                                            {% else %}
+                                                <a href="/checkout/packages/add/{{ package.id }}" class="btn btn--primary cursorAura">Add to Cart</a>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+    						    {% endfor %}
+    					    
+    					    <!-- IMAGE PACKAGES -->
+    						{% else %}
+    							{% for package in category.packages %}
+    							    <div class="package">
+    							        {% if onSaleTag and package.discount.applied %}
+    							            <span class="tag tag--danger tag--right">On Sale</span>
+    							        {% endif %}
+                                        <div class="package__image">
+                                            <a href="javascript:void(0);" data-remote="/package/{{ package.id }}" class="toggle-modal">
+                                                <img src="{{ package.image.url }}" />
+                                            </a>
+                                        </div>
+                                        
+                                        <div class="package__info">
+                                            <h2>{{ package.name[:20] }}</h2>
+                                            {% if package.customPrice == false and package.price > 0.00 %}
+                                                <h3>
+                                                    {% if package.discount.applied %}
+    				                  					<span class="price--discounted text--title">{{ package.discount.original|money }} {{ basket.currency }}</span><br>
+    				                  				{% endif %}
+    												{{ package.price|money }} {{ basket.currency }}
+                                                </h3>
+                                            {% endif %}
+                                        </div>
+                                        
+                                        <div class="package__buttons">
+                                            {% if package.basket %}
+                                                <a href="#" onclick="subtractPackage({{package.id}})" class="iconBoxed iconBoxed--rounded package__remove cursorAura" ><i class="fas fa-minus"></i></a>
+                                                <input type="text" class="package__quantity" name="quantity[{{ package.id }}]" value="{{ package.quantity }}" {% if package.price == 0.00 or package.disableQuantity %}disabled="disabled"{% endif %} maxlength="3"/>
+                                                <a href="/checkout/packages/add/{{ package.id }}" class="iconBoxed iconBoxed--rounded package__add cursorAura"><i class="fas fa-plus"></i></a>
+                                            {% else %}
+                                                <a href="/checkout/packages/add/{{ package.id }}" class="btn btn--primary cursorAura">Add to Cart</a>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+    							{% endfor %}
+    						</div>
+						{% endif %}
+					{% else %}
+						<p>No packages to display in this category.</p>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

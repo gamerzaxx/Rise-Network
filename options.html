@@ -1,0 +1,80 @@
+{% extends "layout.html" %}
+
+{% block content %}
+	<div class="body">
+	    <div>
+    	    <div class="sidebar">
+    			{{ modules|raw }}
+    		</div>
+		</div>
+		
+		<div class="content">
+		    <div class="featured">{{ modules|raw }}</div>
+		    
+			<div class="panel panel--options">
+				<div class="panel__heading">
+				    <h1>{{ options.package.name }}</h1>
+			    </div>
+				<div class="panel__body">
+					<form method="post">
+                        
+						{% if options.package.chooseServer %}
+						    <!-- CHOOSE SERVER -->
+						    <div class="select">
+                                <select name="server">
+                                    <option value="">Please choose which server to receive this package upon</option>
+                                    {% for server in options.servers %}
+    									<option value="{{ server.id }}">{{ server.name }}</option>
+    								{% endfor %}
+                                </select>
+                            </div>
+						{% endif %}
+
+						{% if options.package.customPrice %}
+						    <!-- SET CUSTOM PRICE -->
+    						<div id="customPrice">
+                                <input type="text" name="price" placeholder="Please enter an amount">
+                                <span class="text--title">{{ store.currency }}</span>
+                            </div>
+						{% endif %}
+
+						{% for variable in options.variables %}
+							{% if variable.type == "dropdown" %}
+							    <!-- DROPDOWN EXTRA OPTIONS -->
+							    <div class="select">
+                                    <select name="variables[{{ variable.id }}]">
+                                        <option value="">{{ variable.description }}</option>
+    									{% for option in variable.options %}
+    										<option value="{{ option.id }}">
+    											{{ option.name }}
+    											{% if option.price > 0 %}
+    												(+{{ option.price|money }} {{ basket.currency }})
+    											{% endif %}
+    										</option>
+    									{% endfor %}
+                                    </select>   
+                                </div>
+                            {% elseif variable.id == "discord_id" %}
+                                <!-- DISCORD ID -->
+                                <p>{{ variable.description }}</p>
+                                <input type="text" readonly value="{{ variable.value ? "Logged in as " ~ variable.discord_tag : __("Not logged in") }}">
+                                <span><a href="https://ident.tebex.io/discord/?return={{ url(['fivem_id']) }}" id="login-with-discord" class="btn cursorAura" style="background: #5865F2;">Login with Discord</a></span>
+                                <input type="hidden" name="variables[{{ variable.id }}]" value="{{ variable.value }}" />
+                            {% else %}
+							    <div>
+                                    <input type="text" name="variables[{{ variable.id }}]" placeholder="{{ variable.description }}" />
+                                </div>
+							{% endif %}
+						{% endfor %}
+						
+                        <!-- BUTTONS -->
+                        <div class="panel__buttons">
+                            <a href="/category/{{ options.package.category }}" class="btn btn--danger cursorAura">Back</a>
+                            <input type="submit" name="submit" value="Continue" class="btn btn--primary cursorAura"/>
+                        </div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

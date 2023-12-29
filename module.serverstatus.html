@@ -1,0 +1,18 @@
+{% if module.display %}
+    <div class="module module--serverstatus">
+        <div class="module__heading">
+            <i class="fas fa-server"></i>
+            <h2>{{ module.header }}</h2>
+            <div class="{% if module.online %}module--online{% else %}module--offline{% endif %}"></div>
+        </div>
+        <div class="module__body">
+            <h3>{{ module.ip }}{% if module.port != 25565 %}:{{ module.port }}{% endif %}</h3>
+            {% if module.online %}
+                <p>
+                    <i class="fas fa-users"></i>
+                    {{ module.players.online }} / {{ module.players.max }}
+                </p>
+            {% endif %}
+        </div>
+    </div>
+{% endif %}

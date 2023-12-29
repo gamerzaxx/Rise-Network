@@ -1,0 +1,16 @@
+{% if module.display %}
+    <a href="javascript:void(0);" data-remote="/package/{{ module.package.id }}" class="module module--featured toggle-modal cursorAura cursorAura--dim">
+        <div>
+            <h2>{{module.package.name[:20]}}</h2>
+            <div>
+                <span class="tag tag--900 tag--left">{{module.package.price|money}} {{module.package.currency}}</span>
+                {% if module.package.discount.applied %}
+                    <p class="price--discounted text--title">{{ module.package.discount.original|money }} {{ module.package.currency }}</p>
+                {% endif %}
+            </div>
+        </div>
+        <div>
+            <img src="{{ module.package.image.url }}" class="unselectable" />
+        </div>
+    </a>
+{% endif %}

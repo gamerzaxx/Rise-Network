@@ -1,0 +1,35 @@
+<div class="module module--topdonator">
+    <div class="module__avatar">
+        {% if module.ign %}
+            <img src="https://mc-heads.net/body/{{module.ign}}" class="unselectable" id="topDonatorAvatar" data-username="{{module.ign}}"/>
+        {% else %}
+            <img src="https://i.gyazo.com/55571e51c8860743ae28df705b3f0c5e.png" class="unselectable" id="topDonatorAvatar"/>
+        {% endif %}
+    </div>
+    <div class="module__body">
+        <h2><i class="fas fa-star"></i> Top Donator</h2>
+        {% if module.ign %}
+            <p>{{ module.ign }},
+                {% if module.displayAmount %}
+                    {{ __("donated") }} {{ module.total|money }} <small>{{ store.currency }}</small>
+                {% else %}
+                    {{ __("donated the most ") }}
+                {% endif %}
+                
+                {% if module.period == "hourly" %}
+                    {{ __("this hour.") }}
+                {% elseif module.period == "daily" %}
+                    {{ __("today.") }}
+                {% elseif module.period == "monthly" %}
+                    {{ __("this month.") }}
+                {% elseif module.period == "yearly" %}
+                   {{ __("this year.") }}
+                {% else %}
+                    {{ __("this week.") }}
+                {% endif %}    
+            </p>
+        {% else %}
+            <p>Your name and skin can be here!</p>
+        {% endif %}
+    </div>
+</div>

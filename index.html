@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+
+{% block content %}
+	<div class="body">
+	    <div>
+    	    <div class="sidebar">
+    			{{ modules|raw }}
+    		</div>
+		</div>
+		<div class="content">
+		    <div class="featured">{{ modules|raw }}</div>
+		    
+		    {% if announcement %}
+		    <div class="announcement cursorAura">
+		        <div class="tag tag--left tag--light">Announcement</div>
+		        <p>{{announcement}}</p>
+		    </div>
+		    {% endif %}
+		    
+			<div class="panel">
+				<div class="panel__heading">
+				    <h1>{{store.name}}</h1>
+			    </div>
+				<div class="panel__body markup__body">
+			  		{{ index.description|raw }}
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

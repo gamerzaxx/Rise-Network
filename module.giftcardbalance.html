@@ -1,0 +1,28 @@
+<div class="module">
+    <div class="module__heading">
+        <i class="fas fa-wallet"></i>
+        <h2>{{ module.header }}</h2>
+    </div>
+    <div class="module__body">
+        <form action='#giftcardbalance' method='post'>
+            <input type="text" name="card_number" placeholder="Enter Code" value="{{search}}" class="input--900" />
+            <div class="form__submit"><button class="btn btn--primary cursorAura">Check Giftcard</button></div>
+        </form>
+    </div>
+</div>
+
+{% if search %}
+    {% if giftcard == false or giftcard.card_number == false %}
+        <div class="alert alert--danger">
+            <p>No card found!</p>
+        </div>
+    {% elseif giftcard.void == 1 %}
+        <div class="alert alert--danger">
+            <p>This gift card has been marked as void.</p>
+        </div>
+    {% else %}
+        <div class="alert alert--success">
+            <p>Your giftcard balance is <b>{{ giftcard.remaining_balance }} {{ store.currency }}</b>.</p>
+        </div>
+    {% endif %}
+{% endif %}

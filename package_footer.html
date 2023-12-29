@@ -1,0 +1,45 @@
+<div class="modal__footer">
+    <!-- PRICE & BUTTONS -->
+    <div class="modal__price">
+        <!-- DISPLAY PRICE -->
+        {% if package.customPrice %}
+            <h3>Name your own price<h3>
+        {% elseif package.price == 0.00 %}
+            <h3>Free</h3>
+        {% else %}
+            <h3>{{ package.price|money }} {{ basket.currency }}</h3>
+        {% endif %}
+        
+        <!-- PURCHASE & GIFT BUTTON -->
+        {% if package.purchasable == false %}
+            <p>Not Purchasable</p>
+        {% else %}
+            <div class="modal__buttons">
+                {% if package.disable_gifting == false and package.storeGiftingEnabled %}
+                    <button class="btn btn--dark btn--gift cursorAura cursorAura--dim collapse" data-collapse="gift">Gift<i class="fas fa-chevron-down"></i></button>
+                {% endif %}
+                {% if package.basket %}
+                    <a href="/checkout/packages/remove/{{ package.id }}" class="btn btn--danger cursorAura btn--hideMobile">Remove</a>
+                    <a href="/checkout/packages/remove/{{ package.id }}" class="btn btn--danger iconBoxed iconBoxed--rounded btn--showMobile"><i class="fas fa-trash"></i></a>
+                {% else %}
+                    {% if package.type != "single" %}
+                        <a href="/checkout/packages/add/{{ package.id }}/subscribe" class="btn btn--primary cursorAura">Subscribe</a>
+                    {% endif %}
+                    {% if package.type != "subscription" %}
+                        <a href="/checkout/packages/add/{{ package.id }}/single" class="btn btn--primary cursorAura">Purchase</a>
+                    {% endif %}
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+    
+    <!-- GIFT COLLAPSIBLE -->
+    {% if package.disable_gifting == false and package.storeGiftingEnabled %}
+        <div class="modal__gift collapsible" data-collapsible="gift">
+            <form name="gift-form" method="get" action="/checkout/packages/add/{{ package.id }}/single/gift">
+                <input type="text" name="username" placeholder="Enter a username to gift this package to"/>
+                <button type="submit" class="btn btn--accent cursorAura"><i class="fas fa-gift"></i>Gift</button>
+            </form>
+        </div>
+    {% endif %}
+</div>

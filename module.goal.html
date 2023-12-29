@@ -1,0 +1,17 @@
+<div class="module">
+    <div class="module__heading">
+        <i class="fas fa-dollar-sign"></i>
+        <h2>{{ module.header }}</h2>
+    </div>
+    <div class="module__body">
+        <div class="progress">
+            <div class="progress__bar" style="width:{{ module.percentage }}%;"></div>
+                {% if module.displayAmount %}
+                    <h3>{{ module.total }} / {{ module.target }} {{ store.currency }} ({{ module.percentage }}%)</h3>
+    		    {% endif %}
+    		    {% if module.displayAmount == false %}
+    			    <h3>{{ module.percentage }}% Completed</h3>
+    		    {% endif %} 
+        </div>
+    </div>
+</div>

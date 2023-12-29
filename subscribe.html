@@ -1,0 +1,276 @@
+{% extends "layout.html" %}
+
+{% block content %}
+	<div class="body body--checkout">
+	    <!-- LEFT PANEL (BASKET OVERVIEW & COUPONS) -->
+		<div>
+			<div class="panel">
+			    <!-- BASKET OVERVIEW -->
+				<div class="panel__heading">
+                    <h2>Review your cart</h2>
+                </div>
+				<div class="panel__body">
+				    <!-- REVIEW -->
+					<div class="review">
+                        <div class="package">
+                            <div class="package__info">
+                                <h3>{{ basket.packages[0].name }}</h3>
+                                <div class="package__tags">
+                                    <span class="tag tag--left tag--700">{{ basket.packages[0].price|money }} {{ basket.currency }}</span>
+                                    <span class="tag tag--700"><i class="fas fa-redo-alt"></i>{{ basket.packages[0].expiryPeriod }}</span>
+                                    {% if package.ign != "" %}
+                                        <span class="tag tag--gift tag--700"><i class="fas fa-gift"></i>{{ package.ign }}</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="package__buttons">
+                                <a href="javascript::void(0);" data-remote="/package/{{ basket.packages[0].id }}" class="iconBoxed iconBoxed--rounded package__infoModal toggle-modal cursorAura cursorAura--dim"><i class="fas fa-info"></i></a>
+                                <a href="/checkout/packages/remove/{{ basket.packages[0].id }}" class="btn btn--danger cursorAura" >Remove</a>
+                            </div>
+                        </div>
+                    </div>
+                        
+                    <!-- COUPONS -->
+                    <div class="panel__heading panel__heading--coupons">
+                        <h2>Apply Coupons & Gift Cards</h2>
+                    </div>
+                    <div class="panel__body">
+                        <div class="coupons">
+                            <form method="post" action="/checkout/coupons/add">
+                                <input type="text" name="coupon" placeholder="Enter code">
+                                <button class="btn btn--primary cursorAura">Apply</button>
+                            </form>
+                        </div>
+        
+                        {% if basket.coupons|length > 0 %}
+                            <div class="redeemed">
+                                {% for coupon in basket.coupons %}
+                                    <div class="coupon">
+                                        <p class="text--title">{{ coupon.code }}</p>
+                                        <a href="/checkout/coupons/remove/{{ coupon.code }}"><i class="fas fa-times"></i></a>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        {% if store.useCheckout %}
+            <div>
+                <div class="panel">
+                    <div class="panel__heading">
+                       <h2><i class="fas fa-address-card"></i>Checkout</h2>
+                    </div>
+                    <div class="panel__body">
+                        <div class="hide">{{ privacyForm|raw }}</div>
+                        <p>Upon proceeding, you'll be redirected to Tebex Checkout. Please follow the instructions.</p>
+                    </div>
+                    <div class="panel__footer">
+                        <form method="post" action="{% if basket.price > 0 %}/checkout/pay{% else %}/checkout/free{% endif %}" class="basket__total checkout">
+                            <div>
+                                <h3>Total</h3>
+                                <h2>{{ basket.price|money }} {{basket.currency}}</h2>
+                            </div>
+                            <button type="submit" class="btn btn--primary cursorAura" id="purchase-button" data-loading-text="Redirecting..">Pay Now</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+    </div>
+                            
+        <!-- CURRENTLY NOT SUPPORTED (OLD CHECKOUT PAGE) -->  
+    <div>
+        <form method="post" action="{% if basket.price > 0 %}/checkout/pay{% else %}/checkout/free{% endif %}" {% if basket.price > 0 %}class="gateway"{% endif %}>
+			
+			<input type="hidden" name="type" value="single" />    
+            
+            {% if checkout.gateways|length > 0 and basket.price > 0 %}
+                <div class="page-header">
+                  <h4>{{ __("Payment method") }}</h4>
+                </div>
+                
+                <div class="gateways">
+                    {% for gateway in checkout.gateways %}
+                        <div class="radio">
+                            <label>
+                              <input type="radio" name="gateway" id="gateway" value="{{ gateway.id }}" {% if checkout.gateways|length == 1 %} checked="checked" {% endif %} data-id="{{ gateway.gateway }}">
+                              <img src="/templates/209/img/gateways/{{ gateway.gateway }}.png"/> 
+                              {{ gateway.name }} 
+                              {% if gateway.offset != 0 %}
+								({% if gateway.offset > 0 %}+{% endif %}{{ gateway.offset|money }} <small>{{ basket.currency }}</small>)
+							    {% endif %} 
+                            </label>
+                        </div>
+                    {% endfor %}
+                </div>
+                    
+            {% endif %}
+            
+            <div class="page-header">
+              <h4>{{ __("Billing details") }}</h4>
+            </div>
+
+            <div class="details">
+
+              <div class="row">
+                <div class="name">
+                  <div class="form-group">
+                    <label>{{ __("Full name:") }}</label>
+                    <input type="input" class="form-control" name="address_name" />
+                  </div>
+                </div>
+                <div class="email">
+                  <div class="form-group">
+                    <label>{{ __("Email address:") }}</label>
+                    <input type="input" class="form-control" name="email" />
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="address1">
+                  <div class="form-group">
+                    <label>{{ __("Address Line 1:") }}</label>
+                    <input type="input" class="form-control" name="address_line_1" />
+                  </div>
+                </div>
+                <div class="address2">
+                  <div class="form-group">
+                    <label>{{ __("Address Line 2:") }}</label>
+                    <input type="input" class="form-control" name="address_line_2" />
+                  </div>
+                </div>
+                <div class="city">
+                  <div class="form-group">
+                    <label>{{ __("City:") }}</label>
+                    <input type="input" class="form-control" name="address_city" />
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="zip">
+                  <div class="form-group">
+                    <label>{{ __("Zip Code:") }}</label>
+                    <input type="input" class="form-control" name="address_zip" />
+                  </div>
+                </div>
+                <div class="state">
+                  <div class="form-group">
+                    <label>{{ __("State/Region:") }}</label>
+                    <input type="input" class="form-control" name="address_state" />
+                  </div>
+                </div>
+                <div class="country">
+                  <div class="form-group">
+                    <label>{{ __("Country:") }}</label>
+                    <select class="form-control" name="address_country">
+                        <option value="">{{ __("Select a country") }}</option>
+					    {% for country in checkout.countries %}
+						    <option value="{{ country.id }}">{{ country.name }}</option>
+					    {% endfor %}
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            
+            <div class="card-container">
+            
+                <div class="page-header">
+                  <h4>{{ __("Card details") }}</h4>
+                </div>
+
+                <div class="card">
+
+                  <div class="row">
+                    <div class="number">
+                      <div class="form-group">
+                          <label>{{ __("Card number:") }}</label>
+                          <input type="text" class="form-control" placeholder="4242 4242 4242 4242" />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="cvc">
+                      <div class="form-group">
+                        <label>{{ __("CVC:") }} <a href="http://www.cvvnumber.com/cvv.html" target="_blank" style="font-size:11px">{{ __("What is this?") }}</a></label>
+                        <input type="text" class="form-control" placeholder="123" />
+                      </div>
+                    </div>
+                    <div class="expiration">
+                      <div class="month">
+                        <div class="form-group">
+                          <label>{{ __("Expiry month:") }}</label>
+                          <select class="form-control">
+                            <option value='01'>{{ __("01 - January") }}</option>
+                            <option value='02'>{{ __("02 - February") }}</option>
+                            <option value='03'>{{ __("03 - March") }}</option>
+                            <option value='04'>{{ __("04 - April") }}</option>
+                            <option value='05'>{{ __("05 - May") }}</option>
+                            <option value='06'>{{ __("06 - June") }}</option>
+                            <option value='07'>{{ __("07 - July") }}</option>
+                            <option value='08'>{{ __("08 - August") }}</option>
+                            <option value='09'>{{ __("09 - September") }}</option>
+                            <option value='10'>{{ __("10 - October") }}</option>
+                            <option value='11'>{{ __("11 - November") }}</option>
+                            <option value='12'>{{ __("12 - December") }}</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="year">
+                          <label>{{ __("Expiry year:") }}</label>
+                          <select class="form-control">
+                            {% for year in checkout.expiryYears %}
+                                <option value="{{ year }}">{{ year }}</option>
+                            {% endfor %}
+                          </select>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+                
+            </div>
+
+            <div class="tax"></div>
+{{ privacyForm|raw }}
+
+            <div class="page-header">
+              <h4>{{ __("Subscribe") }}</h4>
+            </div>
+
+            {% if checkout.gateways|length > 0 %}
+                <div class="row">
+                  <div class="col-sm-8">
+                    <div class="checkbox">
+                      <label>
+                        <input type="checkbox" value="true" name="agreement">
+                        {{ __("I agree to the :link_start terms & conditions :link_end of this purchase.", {'link_start': '<a href="javascript::void(0);" data-remote="/terms" class="toggle-modal">', 'link_end': '</a>'})|raw }}
+                      </label>
+{% include "subscribe/tokenize.html" %}
+                    </div>
+                  </div>
+                  <div class="col-sm-4">
+                    {% include "subscribe/buttons.html" %}
+                  </div>
+                </div>  
+            {% else %}
+			    <h5>{{ __("You need to setup a :gateway in your control panel before players can donate.", {"gateway": '<a href="http://server.buycraft.net/gateways" target="_blank">payment gateway</a>'})|raw }}</h5>
+		    {% endif %}
+                
+                            </form>
+                        {% endif %}                            
+    </div>
+	
+    {% if checkout.kount %}
+        <iframe width="1" height="1" frameborder="0" scrolling="no" src="{{ checkout.kount.url|raw }}">
+            <img width="1" height="1" src="{{ checkout.kount.gif|raw }}">    
+        </iframe>
+    {% endif %}
+{% endblock %}
